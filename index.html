@@ -709,18 +709,44 @@ nav.scrolled {
     max-width: 20ch;
   }
   /* progress bar at card bottom */
+  /* Logo ETS decorativo — top right della card */
+  .fp-stat-logo {
+    position: absolute;
+    top: 18px; right: 18px;
+    width: 22px; height: auto;
+    filter: brightness(0) saturate(1) invert(55%) sepia(90%) saturate(400%) hue-rotate(55deg);
+    opacity: 0.35;
+    transition: opacity 0.35s ease, transform 0.35s ease;
+    pointer-events: none;
+  }
+  .fp-stat:hover .fp-stat-logo {
+    opacity: 0.75;
+    transform: scale(1.12);
+  }
+
+  /* Barra: invisibile a riposo, appare sull'hover */
   .fp-stat-bar-wrap {
     position: absolute;
     bottom: 0; left: 0; right: 0;
     height: 3px;
-    background: rgba(122,179,23,0.1);
-    border-radius: 0 0 14px 14px;
+    background: rgba(122,179,23,0.08);
+    border-radius: 0 0 var(--radius-card,20px) var(--radius-card,20px);
     overflow: hidden;
+    opacity: 0;
+    transition: opacity 0.25s ease;
   }
+  .fp-stat:hover .fp-stat-bar-wrap { opacity: 1; }
+
+  /* Barra: riempimento semplice al hover */
   .fp-stat-bar {
     height: 100%;
-    background: linear-gradient(90deg, rgba(122,179,23,0.55) 0%, #7AB317 100%);
+    width: 0;
     border-radius: inherit;
+    background: linear-gradient(90deg, rgba(122,179,23,0.6) 0%, #7AB317 100%);
+    transition: width 1.6s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .fp-stat:hover .fp-stat-bar {
+    width: 92%;
   }
   #footprint .section-tag {
     color: var(--green);
@@ -1732,41 +1758,68 @@ nav.scrolled {
 .hero-mob-watermark { display: none; }
 
 /* ── ARCHI MAPPA ── */
+/* ── BASE TRACK — linea guida sottile e coerente ── */
 .map-arc-base {
   fill: none;
-  stroke: rgba(122,179,23,0.18);
-  stroke-width: 1.2;
+  stroke: rgba(122,179,23,0.15);
+  stroke-width: 1;
+  stroke-linecap: round;
 }
+
+/* ── DOT RUNNER — singolo punto che scorre lungo il tracciato ── */
 .map-arc {
   fill: none;
   stroke: #7AB317;
-  stroke-width: 1.6;
+  stroke-width: 2;
+  stroke-linecap: round;
   opacity: 0.9;
-  stroke-dasharray: 6 10;
-  animation: arc-flow 2.4s linear infinite;
+  /* dasharray impostato via JS in base alla lunghezza del path */
 }
+
+/* ── GLOW sotto il dot runner ── */
 .map-arc-glow {
   fill: none;
   stroke: #7AB317;
-  stroke-width: 4;
+  stroke-width: 6;
+  stroke-linecap: round;
   opacity: 0;
-  filter: blur(4px);
-  stroke-dasharray: 6 10;
-  animation: arc-flow 2.4s linear infinite, arc-pulse 3.5s ease-in-out infinite;
+  filter: blur(5px);
+  animation: arc-pulse 3.5s ease-in-out infinite;
 }
 
-/* Dot destinazione */
+/* ── DRAW LINE — si completa al hover ── */
+.map-arc-draw {
+  fill: none;
+  stroke: #7AB317;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  opacity: 0;
+  transition: stroke-dashoffset 0.65s cubic-bezier(0.4, 0, 0.2, 1),
+              opacity 0.2s ease;
+}
+.map-arc-draw.hovered {
+  opacity: 1;
+}
+
+/* ── DOT destinazione ── */
 .map-dot {
   fill: #7AB317;
+  transition: r 0.25s ease;
 }
+.map-dot.hovered { r: 5.5; }
+
 .map-dot-ring {
   fill: none;
   stroke: rgba(122,179,23,0.35);
   stroke-width: 1;
   animation: ring-expand 2.4s ease-out infinite;
 }
+.map-dot-ring.hovered {
+  stroke: rgba(122,179,23,0.7);
+  animation: ring-expand-fast 1s ease-out infinite;
+}
 
-/* Hub Italia — dot centrale */
+/* ── HUB ITALIA ── */
 .map-dot-center {
   fill: #fff;
   stroke: #7AB317;
@@ -1779,18 +1832,23 @@ nav.scrolled {
   animation: hub-pulse 2s ease-in-out infinite;
 }
 
-@keyframes arc-flow {
-  from { stroke-dashoffset: 48; }
-  to   { stroke-dashoffset: 0; }
-}
 @keyframes arc-pulse {
   0%, 100% { opacity: 0; }
-  50%       { opacity: 0.35; }
+  50%       { opacity: 0.30; }
 }
 @keyframes ring-expand {
   0%   { r: 5;  opacity: 0.6; }
-  70%  { r: 10; opacity: 0; }
-  100% { r: 10; opacity: 0; }
+  70%  { r: 11; opacity: 0; }
+  100% { r: 11; opacity: 0; }
+}
+@keyframes ring-expand-fast {
+  0%   { r: 4;  opacity: 0.9; }
+  70%  { r: 13; opacity: 0; }
+  100% { r: 13; opacity: 0; }
+}
+@keyframes hub-pulse {
+  0%, 100% { r: 12; opacity: 0.4; }
+  50%       { r: 18; opacity: 0; }
 }
 @keyframes hub-pulse {
   0%, 100% { r: 10; opacity: 0.4; }
@@ -1799,9 +1857,10 @@ nav.scrolled {
 /* ── MAP TOOLTIP ── */
 .map-tooltip {
   position: fixed;
-  background: rgba(15, 20, 15, 0.92);
-  backdrop-filter: blur(8px);
-  border: 1px solid rgba(122,179,23,0.4);
+  background: rgba(15, 20, 15, 0.55);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(122,179,23,0.25);
   border-radius: 12px;
   padding: 16px 20px;
   pointer-events: none;
@@ -2785,7 +2844,8 @@ button:focus-visible {
       <div class="fp-stat-label">Countries</div>
       <div class="fp-stat-desc">Active wind markets across Europe</div>
     </div>
-    <div class="fp-stat-bar-wrap"><div class="fp-stat-bar" style="width:80%"></div></div>
+    <img src="assets/images/Logo.png" class="fp-stat-logo" alt="">
+    <div class="fp-stat-bar-wrap"><div class="fp-stat-bar"></div></div>
   </div>
   <div class="fp-stat">
     <div class="fp-stat-icon">
@@ -2796,7 +2856,8 @@ button:focus-visible {
       <div class="fp-stat-label">Active Projects</div>
       <div class="fp-stat-desc">Wind farms currently in operation</div>
     </div>
-    <div class="fp-stat-bar-wrap"><div class="fp-stat-bar" style="width:69%"></div></div>
+    <img src="assets/images/Logo.png" class="fp-stat-logo" alt="">
+    <div class="fp-stat-bar-wrap"><div class="fp-stat-bar"></div></div>
   </div>
   <div class="fp-stat">
     <div class="fp-stat-icon">
@@ -2807,7 +2868,8 @@ button:focus-visible {
       <div class="fp-stat-label">MWh Produced</div>
       <div class="fp-stat-desc">Annual renewable energy output</div>
     </div>
-    <div class="fp-stat-bar-wrap"><div class="fp-stat-bar" style="width:91%"></div></div>
+    <img src="assets/images/Logo.png" class="fp-stat-logo" alt="">
+    <div class="fp-stat-bar-wrap"><div class="fp-stat-bar"></div></div>
   </div>
   <div class="fp-stat">
     <div class="fp-stat-icon">
@@ -2818,7 +2880,8 @@ button:focus-visible {
       <div class="fp-stat-label">Installations</div>
       <div class="fp-stat-desc">Completed turbine setups to date</div>
     </div>
-    <div class="fp-stat-bar-wrap"><div class="fp-stat-bar" style="width:75%"></div></div>
+    <img src="assets/images/Logo.png" class="fp-stat-logo" alt="">
+    <div class="fp-stat-bar-wrap"><div class="fp-stat-bar"></div></div>
   </div>
 </div>
 </section>
@@ -3155,7 +3218,6 @@ function drawMapArcs() {
   const svg = document.querySelector('.map-svg');
   if (!svg) return;
 
-  // Rimuovi layer precedente se esiste (es. resize)
   const old = svg.querySelector('.map-arcs-layer');
   if (old) old.remove();
 
@@ -3173,81 +3235,146 @@ function drawMapArcs() {
   const arcGroup = document.createElementNS(NS, 'g');
   arcGroup.setAttribute('class', 'map-arcs-layer');
 
-  // Connessioni da Italia verso ogni paese attivo
   const connections = ['spain','germany','poland','sweden','lithuania','turkey','morocco'];
-  const delays = [0, 0.4, 0.8, 1.2, 1.6, 2.0, 2.4];
+  const delays = [0, 0.5, 1.0, 1.5, 2.0, 2.5, 3.0];
+
+  // Mappa paese → elementi arco per hover
+  const arcElements = {};
 
   connections.forEach((key, i) => {
     const to = centers[key];
     if (!to) return;
 
-    // Curva quadratica: punto di controllo sopra il punto medio
     const mx  = (origin.x + to.x) / 2;
-    const dy  = Math.abs(to.x - origin.x) * 0.32;
+    const dy  = Math.abs(to.x - origin.x) * 0.30;
     const my  = Math.min(origin.y, to.y) - dy;
     const d   = `M ${origin.x} ${origin.y} Q ${mx} ${my} ${to.x} ${to.y}`;
     const delay = delays[i];
 
-    // 1. Traccia base (statica, semitrasparente)
+    // 1. BASE TRACK — traccia guida coerente
     const base = document.createElementNS(NS, 'path');
     base.setAttribute('d', d);
     base.setAttribute('class', 'map-arc-base');
 
-    // 2. Glow blur (pulsa)
+    // 2. DRAW LINE — si rivela al hover (stroke-dashoffset trick)
+    const draw = document.createElementNS(NS, 'path');
+    draw.setAttribute('d', d);
+    draw.setAttribute('class', 'map-arc-draw');
+
+    // 3. DOT RUNNER — punto singolo che scorre: calcolato sul pathLength reale
+    const arc = document.createElementNS(NS, 'path');
+    arc.setAttribute('d', d);
+    arc.setAttribute('class', 'map-arc');
+
+    // 4. GLOW sotto il runner
     const glow = document.createElementNS(NS, 'path');
     glow.setAttribute('d', d);
     glow.setAttribute('class', 'map-arc-glow');
     glow.style.animationDelay = `${delay}s`;
 
-    // 3. Linea animata principale
-    const arc = document.createElementNS(NS, 'path');
-    arc.setAttribute('d', d);
-    arc.setAttribute('class', 'map-arc');
-    arc.style.animationDelay = `${delay}s`;
-
-    // 4. Dot di destinazione con ring
+    // 5. DOT destinazione + ring
     const ring = document.createElementNS(NS, 'circle');
-    ring.setAttribute('cx', to.x);
-    ring.setAttribute('cy', to.y);
-    ring.setAttribute('r', '7');
-    ring.setAttribute('class', 'map-dot-ring');
-    ring.style.animationDelay = `${delay * 0.6}s`;
+    ring.setAttribute('cx', to.x); ring.setAttribute('cy', to.y);
+    ring.setAttribute('r', '7'); ring.setAttribute('class', 'map-dot-ring');
+    ring.style.animationDelay = `${delay * 0.5}s`;
 
     const dot = document.createElementNS(NS, 'circle');
-    dot.setAttribute('cx', to.x);
-    dot.setAttribute('cy', to.y);
-    dot.setAttribute('r', '3.5');
-    dot.setAttribute('class', 'map-dot');
-    dot.style.animationDelay = `${delay * 0.6}s`;
+    dot.setAttribute('cx', to.x); dot.setAttribute('cy', to.y);
+    dot.setAttribute('r', '3.5'); dot.setAttribute('class', 'map-dot');
 
     arcGroup.appendChild(base);
+    arcGroup.appendChild(draw);
     arcGroup.appendChild(glow);
     arcGroup.appendChild(arc);
     arcGroup.appendChild(ring);
     arcGroup.appendChild(dot);
+
+    arcElements[key] = { draw, arc, glow, ring, dot };
   });
 
-  // ── Dot centrale (hub Italia) ──
+  // HUB ITALIA
   const hubRing = document.createElementNS(NS, 'circle');
-  hubRing.setAttribute('cx', origin.x);
-  hubRing.setAttribute('cy', origin.y);
-  hubRing.setAttribute('r', '12');
-  hubRing.setAttribute('class', 'map-hub-ring');
+  hubRing.setAttribute('cx', origin.x); hubRing.setAttribute('cy', origin.y);
+  hubRing.setAttribute('r', '12'); hubRing.setAttribute('class', 'map-hub-ring');
 
   const centerDot = document.createElementNS(NS, 'circle');
-  centerDot.setAttribute('cx', origin.x);
-  centerDot.setAttribute('cy', origin.y);
-  centerDot.setAttribute('r', '5');
-  centerDot.setAttribute('class', 'map-dot-center');
+  centerDot.setAttribute('cx', origin.x); centerDot.setAttribute('cy', origin.y);
+  centerDot.setAttribute('r', '5'); centerDot.setAttribute('class', 'map-dot-center');
 
   arcGroup.appendChild(hubRing);
   arcGroup.appendChild(centerDot);
-
   svg.appendChild(arcGroup);
+
+  // ── Calibra dot runner e draw line in base al pathLength reale ──
+  requestAnimationFrame(() => {
+    connections.forEach((key, i) => {
+      const el = arcElements[key];
+      if (!el) return;
+      const delay = delays[i];
+
+      // Lunghezza reale del path
+      const len = el.arc.getTotalLength();
+
+      // DOT RUNNER: dash lungo 1, gap = resto del path → un punto solo che scorre
+      const dotSize = 4;
+      el.arc.style.strokeDasharray = `${dotSize} ${len - dotSize}`;
+      el.arc.style.strokeDashoffset = `${len}`;
+      // velocità proporzionale alla lunghezza (px/s costante = ~60px/s)
+      const dur = (len / 60).toFixed(2);
+      el.arc.style.animation = `none`;
+      el.arc.style.transition = 'none';
+
+      // Animazione via keyframes inline (offset da len a 0)
+      el.arc.animate(
+        [{ strokeDashoffset: len }, { strokeDashoffset: 0 }],
+        { duration: dur * 1000, delay: delays[i] * 1000, iterations: Infinity, easing: 'linear' }
+      );
+
+      // Glow sincronizzato con runner
+      el.glow.style.strokeDasharray = `${dotSize * 2} ${len - dotSize * 2}`;
+      el.glow.style.strokeDashoffset = `${len}`;
+      el.glow.animate(
+        [{ strokeDashoffset: len }, { strokeDashoffset: 0 }],
+        { duration: dur * 1000, delay: delays[i] * 1000, iterations: Infinity, easing: 'linear' }
+      );
+
+      // DRAW LINE: lunghezza totale, si disegna al hover
+      el.draw.style.strokeDasharray = `${len}`;
+      el.draw.style.strokeDashoffset = `${len}`;
+    });
+
+    // ── Hover sui path paese ──
+    svg.querySelectorAll('path[data-country]').forEach(countryPath => {
+      const key = countryPath.dataset.country;
+      const el  = arcElements[key];
+      if (!el) return;
+
+      const len = el.draw.getTotalLength();
+
+      countryPath.style.cursor = 'pointer';
+
+      countryPath.addEventListener('mouseenter', () => {
+        el.draw.style.strokeDashoffset = '0';
+        el.draw.classList.add('hovered');
+        el.dot.classList.add('hovered');
+        el.ring.classList.add('hovered');
+        // boost glow opacity
+        el.glow.style.opacity = '0.5';
+      });
+
+      countryPath.addEventListener('mouseleave', () => {
+        el.draw.style.strokeDashoffset = `${len}`;
+        el.draw.classList.remove('hovered');
+        el.dot.classList.remove('hovered');
+        el.ring.classList.remove('hovered');
+        el.glow.style.opacity = '';
+      });
+    });
+  });
 }
 
-// Avvia dopo il caricamento completo per garantire il layout SVG
 window.addEventListener('load', () => { setTimeout(drawMapArcs, 80); });
+
 
 function openPartnerModal() {
   document.getElementById('partnerModal').classList.add('open');
