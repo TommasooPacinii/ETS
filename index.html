@@ -73,7 +73,7 @@ nav {
   gap: 64px;
   padding: 0 64px;
   z-index: 100;
-  transition: background 0.4s, backdrop-filter 0.4s;
+  transition: background 0.4s ease;
 }
 nav.scrolled {
   background: rgba(10,10,10,0.88);
@@ -252,6 +252,21 @@ nav.scrolled {
   /* ── SECTION BASE ── */
   section { width: 100%; }
 
+  /* ── GPU / RENDER PERFORMANCE ──────────────────────────────
+     content-visibility: auto → il browser skippa layout e paint
+     delle sezioni fuori viewport (fino al 60% di render time in
+     meno sul caricamento iniziale).
+     contain-intrinsic-size evita layout shift quando rivelata.
+  ────────────────────────────────────────────────────────── */
+  #services, #footprint, #team, #partners {
+    content-visibility: auto;
+    contain-intrinsic-size: 0 900px;
+  }
+  /* Isola reflow interno alle sezioni animate */
+  .map-container, .team-grid-wrap, .services-grid {
+    contain: layout style;
+  }
+
   /* ── STATS 1 — 31 / 40% ── */
   #stats1 {
   background: #fff;
@@ -404,7 +419,7 @@ nav.scrolled {
     background: #fff;
     border-radius: 12px;
     overflow: hidden;
-    transition: transform 0.28s ease, box-shadow 0.28s ease;
+    transition: transform 0.28s ease;
   }
   .service-card:hover {
     transform: translateY(-4px);
@@ -626,7 +641,7 @@ nav.scrolled {
     padding: 0;
     margin: 0;
     opacity: 1;
-    transition: box-shadow 0.3s ease;
+    transition: transform 0.3s ease;
     position: relative;
   }
   .map-container:hover {
@@ -674,7 +689,7 @@ nav.scrolled {
     cursor: default;
     position: relative;
     overflow: hidden;
-    transition: background 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease;
+    transition: background 0.25s ease, transform 0.25s ease;
   }
   .fp-stat:hover {
     background: #fff;
@@ -850,7 +865,7 @@ nav.scrolled {
     justify-content: center;
     transition: scale 0.35s cubic-bezier(0.34,1.56,0.64,1),
                 filter 0.35s ease;
-    will-change: translate, scale, filter;
+    will-change: transform;
   }
   /* founder — outer glow aggiuntivo */
   .team-card.founder .avatar-ring {
@@ -1550,7 +1565,7 @@ nav.scrolled {
   height: 2px;
   background: #fff;
   border-radius: 2px;
-  transition: all 0.3s ease;
+  transition: transform 0.3s ease, opacity 0.3s ease;
 }
 .hamburger-btn.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
 .hamburger-btn.open span:nth-child(2) { opacity: 0; }
@@ -1828,14 +1843,14 @@ nav.scrolled {
   /* dasharray impostato via JS in base alla lunghezza del path */
 }
 
-/* ── GLOW sotto il dot runner ── */
+/* ── GLOW sotto il dot runner — no filter:blur (GPU killer) ── */
 .map-arc-glow {
   fill: none;
-  stroke: #7AB317;
-  stroke-width: 6;
+  stroke: rgba(122,179,23,0.22);
+  stroke-width: 5;
   stroke-linecap: round;
   opacity: 0;
-  filter: blur(5px);
+  will-change: opacity;
   animation: arc-pulse 3.5s ease-in-out infinite;
 }
 
@@ -1860,10 +1875,14 @@ nav.scrolled {
 }
 .map-dot.hovered { r: 5.5; }
 
+/* Ring animata con scale (compositor-only, no reflow) */
 .map-dot-ring {
   fill: none;
   stroke: rgba(122,179,23,0.35);
   stroke-width: 1;
+  transform-origin: center;
+  transform-box: fill-box;
+  will-change: transform, opacity;
   animation: ring-expand 2.4s ease-out infinite;
 }
 .map-dot-ring.hovered {
@@ -1881,6 +1900,9 @@ nav.scrolled {
   fill: none;
   stroke: rgba(122,179,23,0.4);
   stroke-width: 1.5;
+  transform-origin: center;
+  transform-box: fill-box;
+  will-change: transform, opacity;
   animation: hub-pulse 2s ease-in-out infinite;
 }
 
@@ -1888,23 +1910,20 @@ nav.scrolled {
   0%, 100% { opacity: 0; }
   50%       { opacity: 0.30; }
 }
+/* scale invece di r → compositor-only, niente reflow */
 @keyframes ring-expand {
-  0%   { r: 5;  opacity: 0.6; }
-  70%  { r: 11; opacity: 0; }
-  100% { r: 11; opacity: 0; }
+  0%   { transform: scale(1);    opacity: 0.6; }
+  70%  { transform: scale(2.2);  opacity: 0; }
+  100% { transform: scale(2.2);  opacity: 0; }
 }
 @keyframes ring-expand-fast {
-  0%   { r: 4;  opacity: 0.9; }
-  70%  { r: 13; opacity: 0; }
-  100% { r: 13; opacity: 0; }
+  0%   { transform: scale(0.8);  opacity: 0.9; }
+  70%  { transform: scale(2.6);  opacity: 0; }
+  100% { transform: scale(2.6);  opacity: 0; }
 }
 @keyframes hub-pulse {
-  0%, 100% { r: 12; opacity: 0.4; }
-  50%       { r: 18; opacity: 0; }
-}
-@keyframes hub-pulse {
-  0%, 100% { r: 10; opacity: 0.4; }
-  50%       { r: 16; opacity: 0.1; }
+  0%, 100% { transform: scale(1);   opacity: 0.4; }
+  50%       { transform: scale(1.6); opacity: 0.1; }
 }
 /* ── MAP TOOLTIP ── */
 .map-tooltip {
@@ -2128,13 +2147,15 @@ nav.scrolled {
   height: auto;
   object-fit: contain;
   margin-top: -60px;
-  filter: drop-shadow(0 0 40px rgba(122,179,23,0.42));
+  filter: drop-shadow(0 0 40px rgba(122,179,23,0.5));
+  will-change: opacity;
   animation: hero-glow 3.5s ease-in-out infinite;
   transform: translateY(-30px) translateX(-40px);
 }
+/* opacity-only → compositor thread, zero repaint */
 @keyframes hero-glow {
-  0%, 100% { filter: drop-shadow(0 0 40px rgba(122,179,23,0.42)); }
-  50%       { filter: drop-shadow(0 0 70px rgba(122,179,23,0.70)); }
+  0%, 100% { opacity: 0.88; }
+  50%       { opacity: 1;    }
 }
 .scroll-indicator {
   position: absolute;
@@ -3189,19 +3210,25 @@ button:focus-visible {
 </div>
 
 <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js">
-  // Count-up animation
+  // Count-up — requestAnimationFrame, frame-perfect
 function countUp(el, target, duration) {
-  if (el._countTimer) clearInterval(el._countTimer);
-  let start = 0;
-  const step = target / (duration / 16);
-  el._countTimer = setInterval(() => {
-    start += step;
-    if (start >= target) {
-      start = target;
-      clearInterval(el._countTimer);
+  if (el._rafId) cancelAnimationFrame(el._rafId);
+  const suffix = el.dataset.suffix || '';
+  const startTime = performance.now();
+
+  function tick(now) {
+    const elapsed = now - startTime;
+    const progress = Math.min(elapsed / duration, 1);
+    // ease-out cubic per decelerazione naturale
+    const eased = 1 - Math.pow(1 - progress, 3);
+    el.textContent = Math.floor(eased * target) + suffix;
+    if (progress < 1) {
+      el._rafId = requestAnimationFrame(tick);
+    } else {
+      el.textContent = target + suffix;
     }
-    el.textContent = Math.floor(start) + (el.dataset.suffix || '');
-  }, 16);
+  }
+  el._rafId = requestAnimationFrame(tick);
 }
 
 const statsObserver = new IntersectionObserver((entries) => {
@@ -3220,11 +3247,6 @@ const statsObserver = new IntersectionObserver((entries) => {
   if (el) statsObserver.observe(el);
 });
 </script><script>
-  // Navbar scroll
-  window.addEventListener('scroll', () => {
-    document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 60);
-  });
-
   function toggleMobileMenu() {
     const btn = document.getElementById('hamburgerBtn');
     const dropdown = document.getElementById('mobileDropdown');
@@ -3232,9 +3254,26 @@ const statsObserver = new IntersectionObserver((entries) => {
     dropdown.classList.toggle('open');
   }
 
-  // Parallax hero
+  // ── Scroll handler unificato + rAF throttle ──────────────────────────
+  // Un solo listener, un solo rAF per frame → zero jank
+  const navbar = document.getElementById('navbar');
+  const heroBg = document.getElementById('heroBg');
+  let rafPending = false;
+
+  function onScrollFrame() {
+    const sy = window.scrollY;
+    // Navbar classe
+    navbar.classList.toggle('scrolled', sy > 60);
+    // Parallax hero — solo transform, già su layer GPU (will-change: transform)
+    heroBg.style.transform = `translateY(${sy * 0.3}px)`;
+    rafPending = false;
+  }
+
   window.addEventListener('scroll', () => {
-    document.getElementById('heroBg').style.transform = `translateY(${window.scrollY * 0.35}px)`;
+    if (!rafPending) {
+      rafPending = true;
+      requestAnimationFrame(onScrollFrame);
+    }
   }, { passive: true });
 
   // Scroll reveal
