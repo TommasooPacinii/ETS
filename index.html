@@ -884,44 +884,59 @@ nav.scrolled {
 
   /* ── Crop individuale per persona ── */
 
-  /* Pietrino — mezzo busto, abbassato leggermente */
+  /* Pietrino — riferimento: mezzo busto */
   .team-card:nth-child(2) .avatar-ring img { object-position: center 15%; }
-  /* Rebecca  — mezzo busto, centrata */
-  .team-card:nth-child(3) .avatar-ring img { object-position: center 22%; }
-  /* Piotr — leggermente troppo vicino: scala 0.85 */
-  .team-card:nth-child(4) .avatar-ring img {
-    transform: scale(0.85);
-    object-position: center 20%;
+
+  /* ── JHON — cover pieno come Pietrino, niente sfondo ── */
+  .avatar-ring.avatar-jhon {
+    background: #f5f5f5;
   }
-  /* Renee — come Piotr, sfondo bianco */
-  .team-card:nth-child(6) .avatar-ring {
-    background: #ffffff;
-  }
-  .team-card:nth-child(6) .avatar-ring img {
-    transform: scale(0.85);
-    object-position: center 18%;
+  .avatar-ring.avatar-jhon img {
+    object-fit: cover !important;
+    object-position: center 18% !important;
+    transform: none !important;
+    padding: 0;
   }
 
-  /* Jhon — primissimo piano: contain mostra la foto intera centrata */
-  .team-card:nth-child(1) .avatar-ring {
-    background: #ffffff;
+  /* ── REBECCA — stessa grandezza di Pietrino ── */
+  .avatar-ring.avatar-rebecca {
+    background: #f5f5f5;
   }
-  .team-card:nth-child(1) .avatar-ring img {
-    object-fit: contain;
-    object-position: center center;
-    transform: none;
-    padding: 6px; /* respiro interno */
+  .avatar-ring.avatar-rebecca img {
+    object-fit: cover !important;
+    object-position: center 20% !important;
+    transform: none !important;
   }
 
-  /* Francesco — stesso trattamento di Jhon */
-  .team-card:nth-child(5) .avatar-ring {
-    background: #ffffff;
+  /* ── PIOTR — stessa grandezza di Pietrino ── */
+  .avatar-ring.avatar-piotr {
+    background: #f5f5f5;
   }
-  .team-card:nth-child(5) .avatar-ring img {
-    object-fit: contain;
-    object-position: center center;
-    transform: none;
-    padding: 6px;
+  .avatar-ring.avatar-piotr img {
+    object-fit: cover !important;
+    object-position: center 18% !important;
+    transform: none !important;
+  }
+
+  /* ── FRANCESCO — come Pietrino ── */
+  .avatar-ring.avatar-francesco {
+    background: #f5f5f5;
+  }
+  .avatar-ring.avatar-francesco img {
+    object-fit: cover !important;
+    object-position: center 15% !important;
+    transform: none !important;
+    padding: 0;
+  }
+
+  /* ── RENEE — stessa grandezza di Pietrino ── */
+  .avatar-ring.avatar-scale-white {
+    background: #f5f5f5;
+  }
+  .avatar-ring.avatar-scale-white img {
+    object-fit: cover !important;
+    object-position: center 18% !important;
+    transform: none !important;
   }
 
   /* testo sotto avatar */
@@ -2502,7 +2517,7 @@ nav.scrolled {
   <div class="team-grid-wrap">
   <div class="team-grid">
     <div class="team-card founder reveal" onclick="openTeamModal(this)">
-      <div class="avatar-ring">
+      <div class="avatar-ring avatar-jhon">
         <img src="assets/images/Jhon_Chatwin.png" alt="Jhon Chatwin">
       </div>
       <div class="team-card-body">
@@ -2521,7 +2536,7 @@ nav.scrolled {
       </div>
     </div>
     <div class="team-card reveal" onclick="openTeamModal(this)">
-      <div class="avatar-ring">
+      <div class="avatar-ring avatar-rebecca">
         <img src="assets/images/Rebecca_De_Souza.png" alt="Rebecca De Souza">
       </div>
       <div class="team-card-body">
@@ -2530,7 +2545,7 @@ nav.scrolled {
       </div>
     </div>
     <div class="team-card reveal" onclick="openTeamModal(this)">
-      <div class="avatar-ring">
+      <div class="avatar-ring avatar-piotr">
         <img src="assets/images/Piotr_Tyburski.png" alt="Piotr Tyburski">
       </div>
       <div class="team-card-body">
@@ -2539,7 +2554,7 @@ nav.scrolled {
       </div>
     </div>
     <div class="team-card reveal" onclick="openTeamModal(this)">
-      <div class="avatar-ring">
+      <div class="avatar-ring avatar-francesco">
         <img src="assets/images/Francesco_Lotti.png" alt="Francesco Lotti">
       </div>
       <div class="team-card-body">
@@ -2548,7 +2563,7 @@ nav.scrolled {
       </div>
     </div>
     <div class="team-card reveal" onclick="openTeamModal(this)">
-      <div class="avatar-ring">
+      <div class="avatar-ring avatar-scale-white">
         <img src="assets/images/Renee_Betz.png" alt="Renee Betz">
       </div>
       <div class="team-card-body">
