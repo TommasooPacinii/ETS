@@ -1674,6 +1674,24 @@ nav.scrolled {
   }
   .stats1-bg-rect { display: none; }
   .stats1-turbine-wrap { display: none; }
+
+  /* Logo ETS brand tra le due card stats su mobile */
+  .stats-mob-divider {
+    display: flex !important;
+    justify-content: center;
+    align-items: center;
+    padding: 12px 0;
+    width: 100%;
+    order: 2;
+  }
+  .stats-mob-logo {
+    width: 40px;
+    height: auto;
+    display: block;
+    filter: brightness(0) saturate(1) invert(55%) sepia(90%) saturate(400%) hue-rotate(55deg);
+    opacity: 0.55;
+  }
+
   .stats1-card {
     background: radial-gradient(ellipse at center, #eaf2d4 0%, #edf3df 50%, #f4f7ec 100%);
     border-radius: 12px;
@@ -1756,6 +1774,9 @@ nav.scrolled {
 
 /* Watermark logo: hidden on desktop, shown only on mobile via media query */
 .hero-mob-watermark { display: none; }
+
+/* Stats brand divider: hidden on desktop */
+.stats-mob-divider { display: none; }
 
 /* ── ARCHI MAPPA ── */
 /* ── BASE TRACK — linea guida sottile e coerente ── */
@@ -2535,6 +2556,9 @@ button:focus-visible {
     <div class="stat-label">Countries</div>
     <p class="stat-text">With major operational branches in Sweden, Turkey, Germany, Italy, we deliver high-quality services in the energy transition across Europe.</p>
   </div>
+  <div class="stats-mob-divider">
+    <img src="assets/images/Logo.png" alt="" class="stats-mob-logo">
+  </div>
   <div class="stats1-turbine-wrap">
     <img src="assets/images/turbina.png" alt="Wind Turbine" class="stats1-turbine-img">
   </div>
@@ -2581,6 +2605,9 @@ button:focus-visible {
     <div class="stat-number" data-target="750" data-suffix="k+">750k+</div>
     <div class="stat-label">Installation Hours</div>
     <p class="stat-text">Over 750,000 man-hours of wind turbine installation experience accumulated in the past five years. This extensive field expertise ensures high-quality execution, safety, and reliability across all delivered projects.</p>
+  </div>
+  <div class="stats-mob-divider">
+    <img src="assets/images/Logo.png" alt="" class="stats-mob-logo">
   </div>
   <div class="stats1-turbine-wrap">
     <img src="assets/images/turbina2.png" alt="Wind Turbine" class="stats1-turbine-img">
