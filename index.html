@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ETS Wind — The Energy of Change</title>
+<title>ETS Wind — Energy Transition Services</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&family=Barlow+Condensed:wght@700;800&family=Barlow:ital,wght@0,300;0,400;0,500;0,600;1,300&display=swap" rel="stylesheet">
 <style>
@@ -1932,49 +1932,49 @@ nav.scrolled {
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   border: 1px solid rgba(122,179,23,0.25);
-  border-radius: 12px;
-  padding: 16px 20px;
+  border-radius: 10px;
+  padding: 10px 14px;
   pointer-events: none;
   z-index: 999;
   opacity: 0;
   transform: translateY(8px);
   transition: opacity 0.2s ease, transform 0.2s ease;
-  min-width: 160px;
+  min-width: 130px;
 }
 .map-tooltip.visible {
   opacity: 1;
   transform: translateY(0);
 }
 .map-tooltip-turbine {
-  width: 60px;
+  width: 42px;
   display: block;
-  margin: 0 auto 10px;
+  margin: 0 auto 7px;
   filter: brightness(1.2);
 }
 .map-tooltip-country {
   font-family: 'Barlow Condensed', sans-serif;
-  font-size: 18px;
+  font-size: 15px;
   font-weight: 800;
   color: #fff;
   text-transform: uppercase;
   letter-spacing: 0.1em;
   text-align: center;
-  margin-bottom: 10px;
+  margin-bottom: 7px;
 }
 .map-tooltip-divider {
   height: 1px;
   background: rgba(122,179,23,0.3);
-  margin-bottom: 10px;
+  margin-bottom: 7px;
 }
 .map-tooltip-row {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 16px;
-  margin-bottom: 6px;
+  gap: 12px;
+  margin-bottom: 4px;
 }
 .map-tooltip-label {
-  font-size: 9px;
+  font-size: 8px;
   font-weight: 600;
   letter-spacing: 0.12em;
   text-transform: uppercase;
@@ -1982,7 +1982,7 @@ nav.scrolled {
 }
 .map-tooltip-value {
   font-family: 'Barlow Condensed', sans-serif;
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 800;
   color: var(--green);
 }
@@ -2545,6 +2545,181 @@ button:focus-visible {
 }
 
 /* ══════════════════════════════════════════════════
+   TEAM ACCORDION
+   Rettangoli verticali — si espandono al hover
+   ══════════════════════════════════════════════════ */
+
+.ta-wrap {
+  display: flex;
+  height: 420px;
+  gap: 4px;
+  border-radius: 16px;
+  overflow: hidden;
+  padding: 0 var(--section-h);
+}
+
+/* ── Card base ── */
+.ta-card {
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  border-radius: 10px;
+  min-width: 0;
+  transition: flex 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: flex;
+}
+
+/* Prima card espansa di default */
+.ta-card.ta-active { flex: 2.5; }
+
+/* Accordion hover: tutti si restringono, l'hovered si espande */
+.ta-wrap:hover .ta-card         { flex: 0.6; }
+.ta-wrap:hover .ta-card:hover   { flex: 2.5; }
+
+/* ── Foto ── */
+.ta-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 20%;
+  display: block;
+  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: transform;
+}
+.ta-card:hover .ta-img { transform: none; }
+
+/* ── Overlay sfumatura dal basso — più forte per leggibilità ── */
+.ta-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(10,15,10,0)     20%,
+    rgba(10,15,10,0.45)  55%,
+    rgba(10,15,10,0.97) 100%
+  );
+  pointer-events: none;
+}
+
+/* ── Nome verticale — visibile quando collassata ── */
+.ta-label {
+  position: absolute;
+  bottom: 50%;
+  left: 50%;
+  transform: translateX(-50%) translateY(50%) rotate(-90deg);
+  white-space: nowrap;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.65);
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+  z-index: 2;
+}
+.ta-card.ta-active .ta-label,
+.ta-wrap:hover .ta-card:hover .ta-label { opacity: 0; }
+.ta-wrap:not(:hover) .ta-card.ta-active .ta-label { opacity: 0; }
+
+/* ── Info panel — sempre visibile di default ── */
+.ta-info {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 12px 14px 16px;
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: none;
+  z-index: 2;
+  /* Su card collassate nasconde il contenuto per overflow */
+  overflow: hidden;
+}
+/* Card collassate: nasconde nome e badge, mostra solo ruolo */
+.ta-card:not(.ta-active) .ta-name,
+.ta-card:not(.ta-active) .ta-badge,
+.ta-wrap:hover .ta-card:not(:hover) .ta-name,
+.ta-wrap:hover .ta-card:not(:hover) .ta-badge {
+  display: none;
+}
+
+/* Card espansa (hover o active): mostra tutto */
+.ta-card.ta-active .ta-name,
+.ta-card.ta-active .ta-badge,
+.ta-wrap:hover .ta-card:hover .ta-name,
+.ta-wrap:hover .ta-card:hover .ta-badge {
+  display: block;
+}
+
+.ta-badge, .ta-divider, .ta-role { opacity: 1; }
+
+.ta-badge {
+  display: inline-block;
+  font-size: 7px;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--green);
+  background: rgba(122,179,23,0.15);
+  border: 1px solid rgba(122,179,23,0.4);
+  padding: 2px 7px;
+  border-radius: 3px;
+  margin-bottom: 6px;
+}
+
+.ta-name {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 17px;
+  font-weight: 800;
+  color: #fff;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  line-height: 1;
+  margin-bottom: 0;
+}
+
+/* Linea verde sottile tra nome e ruolo */
+.ta-divider {
+  width: 24px;
+  height: 1.5px;
+  background: var(--green);
+  margin: 5px 0;
+  border-radius: 1px;
+}
+
+.ta-role {
+  font-size: 9px;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.55);
+  line-height: 1.3;
+}
+
+/* ── Mobile: griglia 2 colonne ── */
+@media (max-width: 768px) {
+  .ta-wrap {
+    flex-wrap: wrap;
+    height: auto;
+    gap: 6px;
+    padding: 0 var(--section-h);
+    border-radius: 0;
+  }
+  .ta-card,
+  .ta-card.ta-active,
+  .ta-wrap:hover .ta-card,
+  .ta-wrap:hover .ta-card:hover {
+    flex: none;
+    width: calc(50% - 3px);
+    height: 220px;
+  }
+  .ta-label { display: none; }
+  .ta-info { opacity: 1; transform: none; }
+}
+
+/* ══════════════════════════════════════════════════
    SPACING SYSTEM — 8px grid, vertical rhythm
    Regola unica: padding-block IDENTICO per ogni
    sezione → gap sezione/sezione sempre = section-v × 2
@@ -2557,13 +2732,17 @@ button:focus-visible {
   padding-bottom: var(--section-v-hero);   /* 120px */
 }
 
-/* — Tutte le sezioni body: padding identico 96px — */
+/* — Tutte le sezioni body: padding identico — */
 #services,
 #footprint,
-#team,
 #partners {
-  padding-top:    var(--section-v);        /* 96px */
-  padding-bottom: var(--section-v);        /* 96px */
+  padding-top:    var(--section-v);
+  padding-bottom: var(--section-v);
+}
+/* — Team: padding-top leggermente maggiore — */
+#team {
+  padding-top:    calc(var(--section-v) + 32px);
+  padding-bottom: var(--section-v);
 }
 
 /* — Footer: stessa altezza superiore delle sezioni body — */
@@ -2643,8 +2822,8 @@ button:focus-visible {
   <div class="hero-content">
   <div class="hero-left">
     <div class="hero-eyebrow">Safety Quality Productivity</div>
-    <h1 class="hero-h1">ENERGY<br><span class="green">TRANSFER</span><br>SERVICES</h1>
-    <p class="hero-sub">We are a company skilled in the installation, maintenance and upgrade of next-generation wind turbines, driven by the mission of making energy transition faster and more cost-efficient.</p>
+    <h1 class="hero-h1">ENERGY<br><span class="green">TRANSITION</span><br>SERVICES</h1>
+    <p class="hero-sub">We are a company skilled in the installation, maintenance and upgrade of next-generation wind turbines, driven by the mission of making Energy Transition faster and more cost-efficient.</p>
     <div class="hero-ctas">
       <a href="#services" class="btn-hero-primary">DISCOVER MORE →</a>
       <a href="#footprint" class="btn-hero-text">OUR PROJECTS</a>
@@ -2669,7 +2848,7 @@ button:focus-visible {
   <div class="stats1-card left">
     <div class="stat-number" data-target="11" data-suffix="">11</div>
     <div class="stat-label">Countries</div>
-    <p class="stat-text">With major operational branches in Sweden, Turkey, Germany, Italy, we deliver high-quality services in the energy transition across Europe.</p>
+    <p class="stat-text">With major operational branches in Sweden, Turkey, Germany, Italy, we deliver high-quality services in the Energy Transition across Europe.</p>
   </div>
   <div class="stats-mob-divider">
     <img src="assets/images/Logo.png" alt="" class="stats-mob-logo">
@@ -3030,77 +3209,100 @@ button:focus-visible {
 
 <!-- ── TEAM ── -->
 <section id="team">
-  <div class="reveal">
+  <div class="reveal" style="text-align:center;">
     <h2 class="team-title">Meet the <span>Team</span></h2>
     <p class="team-sub">Leadership driving ETS renewable operations across Europe</p>
   </div>
-  <div class="team-grid-wrap">
-  <div class="team-grid">
-    <div class="team-card founder reveal" onclick="openTeamModal(this)">
-      <div class="avatar-ring avatar-jhon">
-        <img src="assets/images/Jhon_Chatwin.png" alt="Jhon Chatwin">
-      </div>
-      <div class="team-card-body">
-        <span class="founder-badge">Founder</span>
-        <div class="team-name">Jhon Chatwin</div>
-        <div class="team-role">CEO & Founder</div>
-      </div>
-    </div>
-    <div class="team-card reveal" onclick="openTeamModal(this)">
-      <div class="avatar-ring">
-        <img src="assets/images/Pietrino_Ferrara.png" alt="Pietrino Ferrara">
-      </div>
-      <div class="team-card-body">
-        <div class="team-name">Pietrino Ferrara</div>
-        <div class="team-role">COO/CFO</div>
-      </div>
-    </div>
-    <div class="team-card reveal" onclick="openTeamModal(this)">
-      <div class="avatar-ring avatar-rebecca">
-        <img src="assets/images/Rebecca_De_Souza.png" alt="Rebecca De Souza">
-      </div>
-      <div class="team-card-body">
-        <div class="team-name">Rebecca De Souza</div>
-        <div class="team-role">CMO</div>
-      </div>
-    </div>
-    <div class="team-card reveal" onclick="openTeamModal(this)">
-      <div class="avatar-ring avatar-piotr">
-        <img src="assets/images/Piotr_Tyburski.png" alt="Piotr Tyburski">
-      </div>
-      <div class="team-card-body">
-        <div class="team-name">Piotr Tyburski</div>
-        <div class="team-role">Tooling Manager</div>
-      </div>
-    </div>
-    <div class="team-card reveal" onclick="openTeamModal(this)">
-      <div class="avatar-ring avatar-francesco">
-        <img src="assets/images/Francesco_Lotti.png" alt="Francesco Lotti">
-      </div>
-      <div class="team-card-body">
-        <div class="team-name">Francesco Lotti</div>
-        <div class="team-role">Installation Ldr</div>
-      </div>
-    </div>
-    <div class="team-card reveal" onclick="openTeamModal(this)">
-      <div class="avatar-ring avatar-scale-white">
-        <img src="assets/images/Renee_Betz.png" alt="Renee Betz">
-      </div>
-      <div class="team-card-body">
-        <div class="team-name">Renee Betz</div>
-        <div class="team-role">Service Care</div>
-      </div>
-    </div>
-  </div>
-  </div>
 
-   <!-- MODAL -->
-  <div id="teamModal" class="team-modal" onclick="closeTeamModal()">
-    <div class="team-modal-inner" onclick="event.stopPropagation()">
-      <button class="team-modal-close" onclick="closeTeamModal()">✕</button>
-      <img id="modalImg" src="" alt="">
-      <div class="team-modal-name" id="modalName"></div>
-      <div class="team-modal-role" id="modalRole"></div>
+  <div class="ta-wrap">
+    <!-- Jhon Chatwin -->
+    <div class="ta-card ta-active">
+      <img class="ta-img" src="assets/images/Jhon_Chatwin.jpg" alt="Jhon Chatwin">
+      <div class="ta-overlay"></div>
+      <span class="ta-label">Jhon Chatwin</span>
+      <div class="ta-info">
+        <span class="ta-badge">Founder</span>
+        <div class="ta-name">Jhon Chatwin</div>
+        <div class="ta-divider"></div>
+        <div class="ta-role">CEO &amp; Founder</div>
+      </div>
+    </div>
+    <!-- Petrino Ferrara -->
+    <div class="ta-card">
+      <img class="ta-img" src="assets/images/Petrino_Ferrara.jpg" alt="Petrino Ferrara">
+      <div class="ta-overlay"></div>
+      <span class="ta-label">Petrino Ferrara</span>
+      <div class="ta-info">
+        <div class="ta-name">Petrino Ferrara</div>
+        <div class="ta-divider"></div>
+        <div class="ta-role">COO / CFO</div>
+      </div>
+    </div>
+    <!-- Rebecca De Souza -->
+    <div class="ta-card">
+      <img class="ta-img" src="assets/images/Rebecca_De_Souza.jpg" alt="Rebecca De Souza">
+      <div class="ta-overlay"></div>
+      <span class="ta-label">Rebecca De Souza</span>
+      <div class="ta-info">
+        <div class="ta-name">Rebecca De Souza</div>
+        <div class="ta-divider"></div>
+        <div class="ta-role">CMO</div>
+      </div>
+    </div>
+    <!-- Piotr Tyburski -->
+    <div class="ta-card">
+      <img class="ta-img" src="assets/images/Piotr_Tyburski.jpg" alt="Piotr Tyburski">
+      <div class="ta-overlay"></div>
+      <span class="ta-label">Piotr Tyburski</span>
+      <div class="ta-info">
+        <div class="ta-name">Piotr Tyburski</div>
+        <div class="ta-divider"></div>
+        <div class="ta-role">Tooling Manager</div>
+      </div>
+    </div>
+    <!-- Francesco Lotti -->
+    <div class="ta-card">
+      <img class="ta-img" src="assets/images/Francesco_Lotti.jpg" alt="Francesco Lotti">
+      <div class="ta-overlay"></div>
+      <span class="ta-label">Francesco Lotti</span>
+      <div class="ta-info">
+        <div class="ta-name">Francesco Lotti</div>
+        <div class="ta-divider"></div>
+        <div class="ta-role">Installation Ldr</div>
+      </div>
+    </div>
+    <!-- Renee Betz -->
+    <div class="ta-card">
+      <img class="ta-img" src="assets/images/Renee_Betz.jpg" alt="Renee Betz">
+      <div class="ta-overlay"></div>
+      <span class="ta-label">Renee Betz</span>
+      <div class="ta-info">
+        <div class="ta-name">Renee Betz</div>
+        <div class="ta-divider"></div>
+        <div class="ta-role">Service Care</div>
+      </div>
+    </div>
+    <!-- Lynne Flaherty -->
+    <div class="ta-card">
+      <img class="ta-img" src="assets/images/Lynne_Flaherty.jpg" alt="Lynne Flaherty">
+      <div class="ta-overlay"></div>
+      <span class="ta-label">Lynne Flaherty</span>
+      <div class="ta-info">
+        <div class="ta-name">Lynne Flaherty</div>
+        <div class="ta-divider"></div>
+        <div class="ta-role">Transition &amp; Mobility Dir.</div>
+      </div>
+    </div>
+    <!-- Anna Chatwin -->
+    <div class="ta-card">
+      <img class="ta-img" src="assets/images/Anna_Chatwin.jpg" alt="Anna Chatwin">
+      <div class="ta-overlay"></div>
+      <span class="ta-label">Anna Chatwin</span>
+      <div class="ta-info">
+        <div class="ta-name">Anna Chatwin</div>
+        <div class="ta-divider"></div>
+        <div class="ta-role">ERP &amp; Mobility Support</div>
+      </div>
     </div>
   </div>
 </section>
@@ -3173,7 +3375,7 @@ button:focus-visible {
       <a href="#">ig</a>
       <a href="#">yt</a>
     </div>
-    <span class="footer-copy">© 2024 ETS Wind — Energy Transfer System. All rights reserved.</span>
+    <span class="footer-copy">© 2024 ETS Wind — Energy Transition Services. All rights reserved.</span>
   </div>
 </footer>
 
