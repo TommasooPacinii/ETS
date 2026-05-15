@@ -73,11 +73,21 @@ nav {
   gap: 64px;
   padding: 0 64px;
   z-index: 100;
-  transition: background 0.4s ease;
+  /* ── iOS Liquid Glass ── */
+  background: rgba(8, 8, 8, 0.30);
+  backdrop-filter: blur(24px) saturate(180%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+  box-shadow: inset 0 -1px 0 rgba(255, 255, 255, 0.04);
+  transition: background 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease;
 }
 nav.scrolled {
-  background: rgba(10,10,10,0.88);
-  backdrop-filter: blur(12px);
+  background: rgba(8, 8, 8, 0.68);
+  backdrop-filter: blur(28px) saturate(200%);
+  -webkit-backdrop-filter: blur(28px) saturate(200%);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.10);
+  box-shadow: inset 0 -1px 0 rgba(255, 255, 255, 0.06),
+              0 1px 24px rgba(0, 0, 0, 0.35);
 }
 .nav-logo {
   display: flex;
@@ -820,6 +830,7 @@ nav.scrolled {
     font-weight: 300;
     color: #666;
     margin-bottom: 32px;
+    text-align: center;
   }
 
   /* wrapper solo per padding verticale (lascia spazio al float/glow) */
@@ -2290,7 +2301,7 @@ nav.scrolled {
 
 /* ── 4. HERO TYPOGRAPHY & SPACING ── */
 .hero-content {
-  padding-top: 56px;
+  padding-top: 64px;
 }
 .hero-h1 {
   font-size: clamp(52px, 6.5vw, 92px);
@@ -2301,7 +2312,7 @@ nav.scrolled {
 .hero-eyebrow {
   font-size: 10px;
   letter-spacing: 0.22em;
-  margin-bottom: var(--gap-label-heading); /* eyebrow → H1: 24px */
+  margin-bottom: 8px; /* eyebrow sits tight right above H1 */
 }
 .hero-sub {
   font-size: 17px;
@@ -2539,9 +2550,236 @@ button:focus-visible {
   /* Tipografia: letter-spacing e dimensioni aumentate */
   .hero-eyebrow { font-size: 11px; letter-spacing: 0.24em; }
   .hero-h1 { font-size: clamp(72px, 5.5vw, 96px); letter-spacing: 0.03em; }
-  .hero-sub { font-size: 18px; letter-spacing: 0.015em; }
+  .hero-sub { font-size: 15px; letter-spacing: 0.015em; }
   .btn-hero-primary { font-size: 13px; letter-spacing: 0.18em; padding: 16px 36px; }
   .btn-hero-text { font-size: 13px; letter-spacing: 0.16em; }
+}
+
+/* ══════════════════════════════════════════════════
+   PREMIUM POLISH PASS — Stripe / Webflow / Framer level
+   Sovrascrive tutti i residui di valori arbitrari.
+   ══════════════════════════════════════════════════ */
+
+/* ── 1. TYPOGRAPHY SYSTEM ── */
+.hero-h1 {
+  font-size: clamp(3.5rem, 7vw, 6.5rem);
+  line-height: 0.88;
+  letter-spacing: -0.03em;
+  font-weight: 800;
+}
+.hero-eyebrow {
+  font-size: 0.75rem;
+  letter-spacing: 0.18em;
+  font-weight: 600;
+}
+.hero-sub {
+  font-size: 0.875rem;
+  line-height: 1.75;
+  max-width: 520px;
+}
+/* H2 sezioni */
+.section-title,
+.team-title,
+.partners-title,
+.footer-cta-title {
+  letter-spacing: -0.025em;
+  line-height: 1.05;
+}
+/* Body text sezioni */
+.section-sub,
+.team-sub,
+.stat-text,
+.partners-sub,
+.slide-text,
+.footprint-sub {
+  font-size: 1rem;
+  line-height: 1.8;
+  max-width: 65ch;
+}
+
+/* ── 2. HERO OVERLAY — spec gradient ── */
+.hero-overlay {
+  background: linear-gradient(
+    90deg,
+    rgba(0,0,0,0.88) 0%,
+    rgba(0,0,0,0.65) 40%,
+    rgba(0,0,0,0.15) 75%,
+    rgba(0,0,0,0.00) 100%
+  );
+}
+
+/* ── 3. NAVBAR ── */
+nav {
+  background: rgba(0,0,0,0.45);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+}
+nav.scrolled {
+  background: rgba(5,5,5,0.82);
+}
+
+/* ── 4. BUTTONS — unified system ── */
+.btn-hero-primary {
+  padding: 16px 36px;
+  border-radius: 8px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  transition: transform 0.25s ease, box-shadow 0.25s ease, opacity 0.25s ease;
+  box-shadow: 0 4px 20px rgba(122,179,23,0.25);
+}
+.btn-hero-primary:hover {
+  opacity: 1;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 28px rgba(122,179,23,0.38);
+}
+.btn-hero-primary:active { transform: translateY(0); }
+
+.btn-hero-text {
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  transition: color 0.2s ease, gap 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.btn-hero-text:hover { color: #7AB317; gap: 10px; }
+
+.nav-cta-btn {
+  padding: 10px 22px;
+  border-radius: 6px;
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  font-weight: 700;
+  transition: background 0.25s ease, color 0.25s ease, transform 0.25s ease;
+}
+.nav-cta-btn:hover { transform: translateY(-1px); }
+
+.btn-green {
+  padding: 16px 36px;
+  border-radius: 8px;
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  font-weight: 700;
+  transition: transform 0.25s ease, box-shadow 0.25s ease, opacity 0.25s ease;
+  box-shadow: 0 4px 20px rgba(122,179,23,0.2);
+}
+.btn-green:hover {
+  opacity: 1;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 28px rgba(122,179,23,0.35);
+}
+
+.btn-outline {
+  padding: 14px 32px;
+  border-radius: 8px;
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  font-weight: 600;
+  transition: background 0.25s ease, color 0.25s ease, transform 0.25s ease;
+}
+.btn-outline:hover { transform: translateY(-1px); }
+
+/* Touch targets — WCAG AA */
+a, button {
+  min-height: 44px;
+  min-width: 44px;
+}
+nav a, .nav-links a {
+  min-height: unset;
+  min-width: unset;
+}
+
+/* ── 5. SERVICE CARDS ── */
+.service-card {
+  border-radius: 16px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border: 1px solid rgba(0,0,0,0.04);
+}
+.service-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 20px 48px rgba(0,0,0,0.10);
+}
+.service-card-body {
+  padding: 24px 24px 28px;
+}
+.service-card-title {
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  margin-bottom: 10px;
+}
+.service-card-text {
+  font-size: 0.9rem;
+  line-height: 1.7;
+  color: #777;
+}
+
+/* ── 6. STAT CARDS ── */
+.stats1-card {
+  border-radius: 16px;
+}
+.stat-number {
+  letter-spacing: -0.03em;
+  line-height: 1;
+}
+
+/* ── 7. FOOTPRINT / MAP CARDS ── */
+.fp-stat {
+  border-radius: 16px;
+  transition: transform 0.28s ease;
+}
+.fp-stat:hover { transform: translateY(-4px); }
+
+/* ── 8. PARTNERS — logo hover lift ── */
+.partner-logo-item {
+  transition: transform 0.25s ease, opacity 0.25s ease;
+}
+.partner-logo-item:hover {
+  transform: translateY(-3px);
+  opacity: 1 !important;
+}
+
+/* ── 9. SCROLL REVEAL — fade + rise ── */
+.reveal {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.65s cubic-bezier(0.22,1,0.36,1),
+              transform 0.65s cubic-bezier(0.22,1,0.36,1);
+}
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ── 10. FOCUS STATES — WCAG AA ── */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid #7AB317;
+  outline-offset: 4px;
+  border-radius: 3px;
+}
+
+/* ── 11. SELECTION COLOR ── */
+::selection {
+  background: rgba(122,179,23,0.3);
+  color: inherit;
+}
+
+/* ── 12. MOBILE BUTTONS FULL WIDTH ── */
+@media (max-width: 768px) {
+  .hero-ctas {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+  }
+  .btn-hero-primary {
+    width: 100%;
+    justify-content: center;
+    padding: 16px 28px;
+  }
 }
 
 /* ══════════════════════════════════════════════════
@@ -2821,9 +3059,9 @@ button:focus-visible {
   <div class="hero-overlay"></div>
   <div class="hero-content">
   <div class="hero-left">
-    <div class="hero-eyebrow">Safety Quality Productivity</div>
+    <div class="hero-eyebrow">Safety – Quality – Productivity</div>
     <h1 class="hero-h1">ENERGY<br><span class="green">TRANSITION</span><br>SERVICES</h1>
-    <p class="hero-sub">We are a company skilled in the installation, maintenance and upgrade of next-generation wind turbines, driven by the mission of making Energy Transition faster and more cost-efficient.</p>
+    <p class="hero-sub">We are a company skilled in the installation, maintenance and upgrade of next-generation wind turbines, driven by the mission of making the energy transition safer, faster, and more cost-efficient. We measure our performance on our core values: LEAN to improve and Technologies to Innovate.</p>
     <div class="hero-ctas">
       <a href="#services" class="btn-hero-primary">DISCOVER MORE →</a>
       <a href="#footprint" class="btn-hero-text">OUR PROJECTS</a>
@@ -2847,8 +3085,8 @@ button:focus-visible {
   <div class="stats1-bg-rect"></div>
   <div class="stats1-card left">
     <div class="stat-number" data-target="11" data-suffix="">11</div>
-    <div class="stat-label">Countries</div>
-    <p class="stat-text">With major operational branches in Sweden, Turkey, Germany, Italy, we deliver high-quality services in the Energy Transition across Europe.</p>
+    <div class="stat-label">Participating countries</div>
+    <p class="stat-text">With major operating branches in Germany, Italy, Romania, Kosovo and Poland, we offer high-quality services across entire Europe, Middle East and North Africa.</p>
   </div>
   <div class="stats-mob-divider">
     <img src="assets/images/Logo.png" alt="" class="stats-mob-logo">
@@ -2859,7 +3097,7 @@ button:focus-visible {
   <div class="stats1-card right">
     <div class="stat-number" data-target="2.6" data-suffix="GW+">2.6GW+</div>
     <div class="stat-label">Installed in 5 years</div>
-    <p class="stat-text">Over 2.6 GW of wind capacity installed in five years, demonstrating strong operational performance and reliable delivery of large-scale projects.</p>
+    <p class="stat-text">Our team's installation experience translates into over 2,600 MW installed over the past five years, demonstrating strong operational performance and reliable delivery of large-scale projects.</p>
   </div>
 </section>
 
@@ -2871,22 +3109,22 @@ button:focus-visible {
     <div class="service-card reveal">
       <img src="https://images.unsplash.com/photo-1466611653911-95081537e5b7?w=600&q=80" alt="Pre-Installation">
       <div class="service-card-body">
-        <div class="service-card-title">Pre-Installation</div>
-        <p class="service-card-text">We support pre-installation of concrete and steel towers, including 5MW+, ensuring safe, efficient setup through planning, supervision, concrete and steel assembly, advanced tools and lean methods for precision.</p>
+        <div class="service-card-title">Major components exchange</div>
+        <p class="service-card-text">We ensure optimal turbine performance, through the replacement of components such as blades, bearings, generators, gearboxes, hubs, main bearings and yaw systems.</p>
       </div>
     </div>
     <div class="service-card reveal">
       <img src="assets/images/tecnici.jpeg" alt="Preventive Maintenance">
       <div class="service-card-body">
-        <div class="service-card-title">Preventive Maintenance</div>
-        <p class="service-card-text">We provide preventive programs to protect turbine performance with cleaning, lubrication, torquing, and UT/DT inspections, detecting issues early to ensure reliability, safety, and long-term efficiency.</p>
+        <div class="service-card-title">Pre-Installation and Preventive Maintenance</div>
+        <p class="service-card-text">In the pre-installation phase, we provide complete support for concrete and steel towers, along with preventive programs including cleaning, lubrication, torquing operations, and UT/DT checks.</p>
       </div>
     </div>
     <div class="service-card reveal">
       <img src="https://images.unsplash.com/photo-1587614382346-4ec70e388b28?w=600&q=80" alt="Staffing Solutions">
       <div class="service-card-body">
-        <div class="service-card-title">Staffing Solutions</div>
-        <p class="service-card-text">We offer staffing solutions across Europe, providing qualified technical professionals for short-term assignments under six months, enabling rapid response to operational needs even without local entities.</p>
+        <div class="service-card-title">Staffing</div>
+        <p class="service-card-text">We offer staffing solutions across Europe, providing qualified technical professionals across different phases of Installations and Major Components Upgrade.</p>
       </div>
     </div>
   </div>
@@ -2898,7 +3136,7 @@ button:focus-visible {
   <div class="stats1-card left">
     <div class="stat-number" data-target="750" data-suffix="k+">750k+</div>
     <div class="stat-label">Installation Hours</div>
-    <p class="stat-text">Over 750,000 man-hours of wind turbine installation experience accumulated in the past five years. This extensive field expertise ensures high-quality execution, safety, and reliability across all delivered projects.</p>
+    <p class="stat-text">With over 750,000 workhours of installation experience, our vision is to accelerate the energy transition, making wind energy more accessible and competitive.</p>
   </div>
   <div class="stats-mob-divider">
     <img src="assets/images/Logo.png" alt="" class="stats-mob-logo">
@@ -2907,9 +3145,9 @@ button:focus-visible {
     <img src="assets/images/turbina2.png" alt="Wind Turbine" class="stats1-turbine-img">
   </div>
   <div class="stats1-card right">
-    <div class="stat-number" data-target="564" data-suffix="">564</div>
-    <div class="stat-label">GE Units Installed</div>
-    <p class="stat-text">In the last five years, 564 GE wind turbine units have been installed, contributing to more than 2.6 GW of additional installed power capacity. This achievement reflects solid technical capability and strong operational performance.</p>
+    <div class="stat-number" data-target="550" data-suffix="">550</div>
+    <div class="stat-label">GE Units</div>
+    <p class="stat-text">In the last 5 years, the teams part of ETS participated to the installation of &gt;550 GE units of which &gt;300 large Cypress units, and executed around 1,000 major operations in the same period.</p>
   </div>
 </section>
 
@@ -2920,24 +3158,24 @@ button:focus-visible {
       <div class="slide-bg" style="background-image:url('https://images.unsplash.com/photo-1504711434969-e33886168f5c?w=1400&q=80')"></div>
       <div class="slide-overlay"></div>
       <div class="slide-content">
-        <div class="slide-tag">Safety First 🛡</div>
-        <p class="slide-text">Safety guides every activity and decision. Teams are encouraged to apply STOP work, report risks, and work within standardized processes that protect both people and operations.</p>
+        <div class="slide-tag">Safety First</div>
+        <p class="slide-text">People are at the core of our organization, so we are committed to continuously improving health and safety. Our leaders care about the teams, and they care for each other. We always support the STOP work when safety is at risk.</p>
       </div>
     </div>
     <div class="slide">
       <div class="slide-bg" style="background-image:url('https://images.unsplash.com/photo-1466611653911-95081537e5b7?w=1400&q=80')"></div>
       <div class="slide-overlay"></div>
       <div class="slide-content">
-        <div class="slide-tag">Innovation & Productivity ⚡</div>
-        <p class="slide-text">Advanced technologies, digital tools, and engineered solutions from key partners accelerate execution, reduce time and cost, and enhance the productivity of field teams.</p>
+        <div class="slide-tag">Quality and Innovation</div>
+        <p class="slide-text">With a strong focus on continuous innovation, we use LEAN methodologies, standard processes, and highly skilled teams to make every project safer, more efficient, and more sustainable.</p>
       </div>
     </div>
     <div class="slide">
       <div class="slide-bg" style="background-image:url('https://images.unsplash.com/photo-1508193638397-1c4234db14d8?w=1400&q=80')"></div>
       <div class="slide-overlay"></div>
       <div class="slide-content">
-        <div class="slide-tag">Quality & Lean Execution ✦</div>
-        <p class="slide-text">Operational excellence is driven by clear procedures, continuous measurement, and ongoing improvement. The Lean approach ensures visibility, reduces errors, and enables consistent, repeatable processes across all projects.</p>
+        <div class="slide-tag">Cost Productivity</div>
+        <p class="slide-text">Our execution strategy is based on driving down costs through process standardization, performance measurement, and a constant presence at Gemba.</p>
       </div>
     </div>
     <div class="slider-dots">
@@ -3211,7 +3449,7 @@ button:focus-visible {
 <section id="team">
   <div class="reveal" style="text-align:center;">
     <h2 class="team-title">Meet the <span>Team</span></h2>
-    <p class="team-sub">Leadership driving ETS renewable operations across Europe</p>
+    <p class="team-sub" style="text-align:center; margin:0 auto;">Leadership driving ETS renewable operations across Europe</p>
   </div>
 
   <div class="ta-wrap">
@@ -3221,7 +3459,6 @@ button:focus-visible {
       <div class="ta-overlay"></div>
       <span class="ta-label">Jhon Chatwin</span>
       <div class="ta-info">
-        <span class="ta-badge">Founder</span>
         <div class="ta-name">Jhon Chatwin</div>
         <div class="ta-divider"></div>
         <div class="ta-role">CEO &amp; Founder</div>
@@ -3361,7 +3598,7 @@ button:focus-visible {
           <h4>Contact</h4>
           <ul>
             <li><a href="#"><span class="__cf_email__" data-cfemail="dfb6b1b9b09fbaabaca8b6b1bbf1bcb0b2">[email&#160;protected]</span></a></li>
-            <li><a href="#">LinkedIn</a></li>
+            <li><a href="https://www.linkedin.com/company/ets-energy-transition-services/?originalSubdomain=de" target="_blank" rel="noopener">LinkedIn</a></li>
             <li><a href="#">Instagram</a></li>
           </ul>
         </div>
@@ -3371,7 +3608,7 @@ button:focus-visible {
   <div class="footer-bottom">
     <div class="social-links">
       <a href="#">f</a>
-      <a href="#">in</a>
+      <a href="https://www.linkedin.com/company/ets-energy-transition-services/?originalSubdomain=de" target="_blank" rel="noopener">in</a>
       <a href="#">ig</a>
       <a href="#">yt</a>
     </div>
@@ -3478,21 +3715,29 @@ const statsObserver = new IntersectionObserver((entries) => {
     }
   }, { passive: true });
 
-  // Scroll reveal
-// Scroll reveal
+  // ── Scroll reveal — stagger orchestrato per sezione ──
 const observer = new IntersectionObserver((entries) => {
-  entries.forEach(e => { 
-    if (e.isIntersecting) { 
-      e.target.classList.add('visible'); 
-      observer.unobserve(e.target); 
-    } 
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('visible');
+      observer.unobserve(e.target);
+    }
   });
-}, { threshold: 0.05 });
+}, { threshold: 0.06, rootMargin: '0px 0px -40px 0px' });
 
 document.querySelectorAll('.reveal').forEach((el, i) => {
-  const parent = el.closest('#services');
-  if (parent) {
-    el.style.transitionDelay = `${(i % 3) * 0.15}s`;
+  // Stagger per service cards (3 colonne)
+  if (el.closest('#services')) {
+    el.style.transitionDelay = `${(i % 3) * 0.12}s`;
+  }
+  // Stagger per footprint stats
+  if (el.closest('.footprint-stats')) {
+    const idx = Array.from(el.parentElement.children).indexOf(el);
+    el.style.transitionDelay = `${idx * 0.1}s`;
+  }
+  // Stagger per partner logos
+  if (el.closest('.partners-box')) {
+    el.style.transitionDelay = `${(i % 6) * 0.08}s`;
   }
   observer.observe(el);
 });
