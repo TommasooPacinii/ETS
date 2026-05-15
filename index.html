@@ -1895,14 +1895,19 @@ nav.scrolled {
   }
   .hero-content {
     flex-direction: column;
-    justify-content: flex-end;
-    align-items: flex-start;
-    padding: 0 20px 140px;
-    gap: 16px;
+    justify-content: center;
+    align-items: center;
+    /* top: nav (52px) + extra push-down; bottom: iOS safe area */
+    padding: calc(52px + 72px) 24px calc(env(safe-area-inset-bottom, 20px) + 48px);
+    gap: 0;
+    text-align: center;
   }
   .hero-left {
     max-width: 100%;
     width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
   .hero-right {
     display: none !important;
@@ -1914,33 +1919,48 @@ nav.scrolled {
     right: 12px;
     top: 50%;
     transform: translateY(-60%);
-    width: 160px;
+    width: 140px;
     height: auto;
-    opacity: 0.10;
+    opacity: 0.08;
     pointer-events: none;
     filter: brightness(0) invert(1);
     z-index: 3;
   }
   .hero-h1 {
-    font-size: clamp(36px, 11vw, 52px);
-    line-height: 0.95;
+    font-size: clamp(42px, 13vw, 58px);
+    line-height: 0.92;
+    text-align: center;
+    margin-bottom: 20px;
   }
   .hero-sub {
     font-size: 13px;
-    max-width: 100%;
-    line-height: 1.6;
+    max-width: 88%;
+    line-height: 1.65;
+    text-align: center;
+    margin-bottom: 32px;
   }
   .hero-eyebrow {
-    font-size: 9px;
-    margin-bottom: 14px;
+    font-size: 8.5px;
+    margin-bottom: 12px;
+    justify-content: center;
+    letter-spacing: 0.2em;
   }
   .hero-ctas {
-    gap: 16px;
-    flex-wrap: wrap;
+    gap: 12px;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
   }
   .btn-hero-primary {
     font-size: 11px;
-    padding: 13px 24px;
+    padding: 14px 28px;
+    width: 100%;
+    text-align: center;
+    justify-content: center;
+  }
+  .btn-hero-text {
+    font-size: 11px;
+    letter-spacing: 0.14em;
   }
 
   /* ── LOGO SOPRA TITOLO HERO ── */
@@ -2536,7 +2556,12 @@ nav.scrolled {
 
 /* ── 4. HERO TYPOGRAPHY & SPACING ── */
 .hero-content {
-  padding-top: 64px;
+  padding-top: 64px; /* desktop only — mobile overridden below */
+}
+@media (max-width: 768px) {
+  .hero-content {
+    padding-top: calc(52px + 72px) !important;
+  }
 }
 .hero-h1 {
   font-size: clamp(52px, 6.5vw, 92px);
