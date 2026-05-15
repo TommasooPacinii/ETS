@@ -1945,22 +1945,34 @@ nav.scrolled {
   }
   .hero-eyebrow {
     font-size: 8px;
-    margin-bottom: 16px;
+    margin-bottom: 14px;
     justify-content: center;
-    letter-spacing: 0.22em;
-    /* Badge pill — iOS native style */
-    background: rgba(122, 179, 23, 0.12);
-    border: 1px solid rgba(122, 179, 23, 0.40);
-    border-radius: 999px;
-    padding: 6px 14px;
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    display: inline-flex;
-    align-self: center;
+    letter-spacing: 0.24em;
+    gap: 10px;
+    /* reset eventuali stili residui */
+    background: none;
+    border: none;
+    border-radius: 0;
+    padding: 0;
   }
-  /* Nascondi la lineetta sinistra — sostituita dal bordo pill */
+  /* Linea sinistra — stessa larghezza della destra */
   .hero-eyebrow::before {
-    display: none;
+    display: block;
+    width: 18px;
+    height: 1px;
+    background: #7AB317;
+    flex-shrink: 0;
+    opacity: 0.9;
+  }
+  /* Linea destra — speculare */
+  .hero-eyebrow::after {
+    content: '';
+    display: block;
+    width: 18px;
+    height: 1px;
+    background: #7AB317;
+    flex-shrink: 0;
+    opacity: 0.9;
   }
   .hero-ctas {
     gap: 12px;
@@ -1985,14 +1997,9 @@ nav.scrolled {
     display: none;
   }
 
-  /* ── SCROLL INDICATOR: solo dito ── */
-  .scroll-indicator { display: none; }
-  .scroll-indicator::before {
-    content: '☝️';
-    font-size: 20px;
-    animation: scroll-bob 1.8s ease-in-out infinite;
-  }
-  .scroll-label { font-size: 8px; }
+  /* ── SCROLL INDICATOR: nascosto su mobile ── */
+  .scroll-indicator { display: none !important; }
+  .scroll-label    { display: none !important; }
 
   /* ── STATS MOBILE ── */
   #stats1, #stats2 {
