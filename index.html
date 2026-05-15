@@ -2,7 +2,11 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<!-- iOS status bar: dark background matching site navbar -->
+<meta name="theme-color" content="#080808">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
 <!-- ═══════════════════════════════════════════════════════════════════
      SEO — ETS Wind / Energy Transition Services
@@ -1940,10 +1944,23 @@ nav.scrolled {
     margin-bottom: 32px;
   }
   .hero-eyebrow {
-    font-size: 8.5px;
-    margin-bottom: 12px;
+    font-size: 8px;
+    margin-bottom: 16px;
     justify-content: center;
-    letter-spacing: 0.2em;
+    letter-spacing: 0.22em;
+    /* Badge pill — iOS native style */
+    background: rgba(122, 179, 23, 0.12);
+    border: 1px solid rgba(122, 179, 23, 0.40);
+    border-radius: 999px;
+    padding: 6px 14px;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    display: inline-flex;
+    align-self: center;
+  }
+  /* Nascondi la lineetta sinistra — sostituita dal bordo pill */
+  .hero-eyebrow::before {
+    display: none;
   }
   .hero-ctas {
     gap: 12px;
