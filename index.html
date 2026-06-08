@@ -2658,7 +2658,7 @@ nav.scrolled {
 }
 .btn-hero-text:hover { color: #7AB317; }
 .hero-logo-big {
-  width: 240px;
+  width: clamp(200px, 17vw, 340px);
   height: auto;
   object-fit: contain;
   margin-top: 0;
@@ -3060,20 +3060,20 @@ button:focus-visible {
   .hero-content { padding: 0 72px 0 96px; gap: 28px; }
   .hero-left { max-width: 520px; }
 
-  /* Logo: grande e centrato — allineato con scroll indicator */
+  /* Logo: proporzionale al viewport, stessi valori del base */
   .hero-right {
     position: absolute;
     left: 50%;
-    top: 50%;
+    top: 36%;
     transform: translate(-50%, -50%);
     pointer-events: none;
-    z-index: 3;
+    z-index: 0;
   }
   .hero-logo-big {
-    width: 520px;
+    /* width ereditata dal base: clamp(200px, 17vw, 340px) — scala proporzionalmente */
     margin-top: 0;
     transform: none;
-    filter: drop-shadow(0 0 56px rgba(122,179,23,0.5));
+    filter: drop-shadow(0 0 36px rgba(122,179,23,0.45));
   }
 
   /* Tipografia: letter-spacing e dimensioni aumentate */
